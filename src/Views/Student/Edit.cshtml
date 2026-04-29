@@ -1,4 +1,4 @@
-﻿@model Visual.Models.Student
+﻿@model Visual.Models.ViewModels.StudentFormViewModel
 @{
     ViewData["Title"] = "Edit Student";
 }
@@ -7,13 +7,13 @@
     <div class="col-md-7">
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Edit Student — @Model.Name</h5>
+                <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Edit Student - @Model.Name</h5>
             </div>
             <div class="card-body p-4">
                 <form asp-action="Edit" method="post">
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="CreatedAt" />
+                    
 
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">Full Name</label>
