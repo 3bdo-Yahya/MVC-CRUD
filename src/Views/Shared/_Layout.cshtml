@@ -4,36 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LMS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
+    @{
+        var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    }
     <nav class="navbar navbar-expand-lg navbar-dark lms-navbar">
         <div class="container lms-shell">
-            <a class="navbar-brand text-white fw-semibold" asp-controller="Home" asp-action="Index">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <i class="fas fa-book-reader me-2"></i>LMS
             </a>
-            <div class="d-flex align-items-center gap-2 ms-auto">
+            <div class="d-flex align-items-center gap-1 ms-auto">
                 <div class="navbar-nav">
-                    <a class="nav-link text-white" asp-controller="Home" asp-action="Index">
-                        <i class="fas fa-chart-line me-1"></i>Dashboard
+                    <a class="nav-link @(controller == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-th-large me-1"></i>Dashboard
                     </a>
-                    <a class="nav-link text-white" asp-controller="Books" asp-action="Index">
-                        <i class="fas fa-book-open me-1"></i>Books
+                    <a class="nav-link @(controller == "Books" ? "active" : "")" asp-controller="Books" asp-action="Index">
+                        <i class="fas fa-book me-1"></i>Books
                     </a>
                 </div>
-                <button id="themeToggle" type="button" class="btn btn-sm btn-outline-light lms-theme-toggle" aria-label="Toggle dark mode">
+                <button id="themeToggle" type="button" class="btn btn-sm lms-theme-toggle" aria-label="Toggle dark mode">
                     <i class="fa-solid fa-moon"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <main class="container lms-shell my-4">
+    <main class="container lms-shell py-4">
         @if (TempData["Success"] != null)
         {
-            <div class="alert alert-success alert-dismissible toast-success fade show shadow-sm border-0" role="alert">
+            <div class="alert alert-success alert-dismissible toast-success fade show" role="alert">
                 <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
@@ -41,6 +47,12 @@
 
         @RenderBody()
     </main>
+
+    <footer class="lms-footer">
+        <div class="container lms-shell">
+            <span>LMS</span> &middot; Library Management System
+        </div>
+    </footer>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

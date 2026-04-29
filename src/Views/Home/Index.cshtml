@@ -3,50 +3,48 @@
 }
 @model HomeDashboardViewModel
 
-<section class="lms-hero mb-4">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-        <div>
-            <p class="text-uppercase lms-kicker mb-2">LMS Workspace</p>
-            <h2 class="mb-1">Library Dashboard</h2>
-            <p class="text-secondary mb-0">Quick overview of your book inventory.</p>
-        </div>
-        <a asp-controller="Books" asp-action="Create" class="btn btn-primary">
-            <i class="fa-solid fa-plus me-2"></i>Add Book
-        </a>
-    </div>
-</section>
+<div class="mb-4">
+    <h1 class="lms-page-title">Dashboard</h1>
+    <p class="text-secondary mb-0">Welcome back. Here's a snapshot of your library.</p>
+</div>
 
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="card lms-card stats-card h-100">
-            <div class="card-body d-flex justify-content-between align-items-start">
+        <div class="card lms-card lms-stat lms-stat--blue h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="text-secondary mb-2">Total Books</p>
-                    <h3 class="mb-0">@Model.TotalBooks</h3>
+                    <p class="lms-stat__label">Total Books</p>
+                    <h2 class="lms-stat__value">@Model.TotalBooks</h2>
                 </div>
-                <span class="stats-icon"><i class="fa-solid fa-book"></i></span>
+                <div class="lms-stat__icon">
+                    <i class="fa-solid fa-book"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card lms-card stats-card h-100">
-            <div class="card-body d-flex justify-content-between align-items-start">
+        <div class="card lms-card lms-stat lms-stat--emerald h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="text-secondary mb-2">Available Copies</p>
-                    <h3 class="mb-0">@Model.AvailableCopies</h3>
+                    <p class="lms-stat__label">Available Copies</p>
+                    <h2 class="lms-stat__value">@Model.AvailableCopies</h2>
                 </div>
-                <span class="stats-icon"><i class="fa-solid fa-layer-group"></i></span>
+                <div class="lms-stat__icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card lms-card stats-card h-100">
-            <div class="card-body d-flex justify-content-between align-items-start">
+        <div class="card lms-card lms-stat lms-stat--amber h-100">
+            <div class="card-body d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="text-secondary mb-2">Genres</p>
-                    <h3 class="mb-0">@Model.UniqueGenres</h3>
+                    <p class="lms-stat__label">Genres</p>
+                    <h2 class="lms-stat__value">@Model.UniqueGenres</h2>
                 </div>
-                <span class="stats-icon"><i class="fa-solid fa-tags"></i></span>
+                <div class="lms-stat__icon">
+                    <i class="fa-solid fa-tags"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -55,33 +53,36 @@
 <div class="card lms-card">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0">Recently Added Books</h5>
+            <h5 class="fw-600 mb-0">Recently Added</h5>
             <a asp-controller="Books" asp-action="Index" class="btn btn-sm btn-outline-primary">View All</a>
         </div>
         @if (!Model.RecentBooks.Any())
         {
-            <p class="text-secondary mb-0">No books available yet.</p>
+            <div class="lms-empty-state">
+                <i class="fa-regular fa-folder-open"></i>
+                <p>No books in the library yet.</p>
+            </div>
         }
         else
         {
             <div class="table-responsive">
-                <table class="table align-middle mb-0">
+                <table class="table lms-table align-middle mb-0">
                     <thead>
                     <tr>
                         <th>Title</th>
                         <th>Author</th>
                         <th>Genre</th>
-                        <th>Copies</th>
+                        <th class="text-end">Copies</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach (var book in Model.RecentBooks)
                     {
                         <tr>
-                            <td>@book.Title</td>
+                            <td class="fw-medium">@book.Title</td>
                             <td>@book.Author</td>
                             <td><span class="badge badge-soft">@book.Genre</span></td>
-                            <td>@book.CopiesAvailable</td>
+                            <td class="text-end">@book.CopiesAvailable</td>
                         </tr>
                     }
                     </tbody>

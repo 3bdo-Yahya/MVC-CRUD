@@ -3,37 +3,44 @@
     ViewData["Title"] = "Book Details";
 }
 
+<div class="mb-4">
+    <a asp-action="Index" class="text-secondary text-decoration-none"><i class="fa-solid fa-arrow-left me-1"></i> Back to Books</a>
+</div>
+
 <div class="card lms-card">
     <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-start mb-4">
             <div>
-                <h3 class="mb-1">Book Details</h3>
-                <p class="text-secondary mb-0">Full information about this book.</p>
+                <h2 class="fw-700 mb-1">@Model.Title</h2>
+                <p class="text-secondary mb-0">by @Model.Author</p>
             </div>
-            <span class="stats-icon"><i class="fa-solid fa-circle-info"></i></span>
+            <span class="badge badge-soft fs-6">@Model.Genre</span>
         </div>
-        <dl class="row mb-0">
-            <dt class="col-sm-3">Title</dt>
-            <dd class="col-sm-9">@Model.Title</dd>
 
-            <dt class="col-sm-3">Author</dt>
-            <dd class="col-sm-9">@Model.Author</dd>
+        <div class="row g-3 mb-4">
+            <div class="col-sm-4">
+                <div class="lms-detail-box">
+                    <span class="lms-detail-box__label">Published Year</span>
+                    <span class="lms-detail-box__value">@Model.PublishedYear</span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="lms-detail-box">
+                    <span class="lms-detail-box__label">Copies Available</span>
+                    <span class="lms-detail-box__value">@Model.CopiesAvailable</span>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="lms-detail-box">
+                    <span class="lms-detail-box__label">Added (UTC)</span>
+                    <span class="lms-detail-box__value">@Model.CreatedAt.ToString("MMM dd, yyyy")</span>
+                </div>
+            </div>
+        </div>
 
-            <dt class="col-sm-3">Genre</dt>
-            <dd class="col-sm-9"><span class="badge badge-soft">@Model.Genre</span></dd>
-
-            <dt class="col-sm-3">Published Year</dt>
-            <dd class="col-sm-9">@Model.PublishedYear</dd>
-
-            <dt class="col-sm-3">Copies Available</dt>
-            <dd class="col-sm-9">@Model.CopiesAvailable</dd>
-
-            <dt class="col-sm-3">Created At (UTC)</dt>
-            <dd class="col-sm-9">@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")</dd>
-        </dl>
-        <div class="mt-4 d-flex gap-2">
+        <div class="d-flex gap-2">
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
         </div>
     </div>
 </div>
