@@ -361,3 +361,22 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# --- Repo-local extras (JetBrains/Cursor/OS/editor/env) ---
+# IDE metadata
+.idea/
+.vscode/
+.cursor/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Environment/local secrets
+.env
+.env.*
+
+# Logs
+*.log
