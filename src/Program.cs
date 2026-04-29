@@ -1,21 +1,38 @@
 using Microsoft.EntityFrameworkCore;
-// using Microsoft.Extensions.Options;
 using Visual.Models.Database;
-// using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connectionString = builder.Configuration.GetConnectionString("cs");
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "Connection string 'cs' is missing. Configure it using user-secrets or environment variable 'ConnectionStrings__cs'.");
+}
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>()
+        .CreateLogger("DatabaseStartup");
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.EnsureCreated();
+    try
+    {
+        logger.LogInformation("Applying pending Entity Framework migrations.");
+        db.Database.Migrate();
+        logger.LogInformation("Database migration check completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Database migration failed during application startup.");
+        throw;
+    }
 }
 
 // Configure the HTTP request pipeline.

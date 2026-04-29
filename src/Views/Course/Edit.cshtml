@@ -1,4 +1,4 @@
-@model Visual.Models.Course
+@model Visual.Models.ViewModels.CourseFormViewModel
 @{
     ViewData["Title"] = "Edit Course";
 }
@@ -14,7 +14,7 @@
                     @Html.AntiForgeryToken()
                     
                     <input type="hidden" asp-for="Id" />
-                    <input type="hidden" asp-for="CreatedAt" />
+                    
 
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label">Course Title</label>
