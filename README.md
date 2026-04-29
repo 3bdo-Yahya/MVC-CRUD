@@ -1,6 +1,13 @@
-# MVC-CRUD Local Setup (SQLite)
+# LMS MVC
 
-This branch uses EF Core with SQLite for a zero-infrastructure local setup.
+Simple Library Management System (LMS) built with ASP.NET Core MVC + EF Core + SQLite.
+
+## Features
+
+- Book CRUD (Create, Read, Update, Delete)
+- Search books by title or author
+- Dashboard summary (Total Books, Available Copies, Genres)
+- Seeded sample books for quick demo
 
 ## Prerequisites
 
