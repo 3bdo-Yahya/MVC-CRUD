@@ -1,0 +1,70 @@
+@model IEnumerable<Book>
+@{
+    ViewData["Title"] = "Books";
+    var searchTerm = ViewData["SearchTerm"]?.ToString();
+}
+
+<div class="card lms-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h3 class="mb-0">Books Catalog</h3>
+                <small class="text-secondary">Manage all books in one place.</small>
+            </div>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="fa-solid fa-plus me-2"></i>New Book
+            </a>
+        </div>
+
+        <form method="get" class="row g-2 mb-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" name="searchTerm" value="@searchTerm" placeholder="Search by title or author..." />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+            <div class="col-auto">
+                <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+            </div>
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-light border mb-0">No books found.</div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Year</th>
+                        <th>Copies</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="fw-medium">@item.Title</td>
+                            <td>@item.Author</td>
+                            <td><span class="badge badge-soft">@item.Genre</span></td>
+                            <td>@item.PublishedYear</td>
+                            <td>@item.CopiesAvailable</td>
+                            <td class="text-end">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

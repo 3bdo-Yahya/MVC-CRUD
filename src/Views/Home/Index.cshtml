@@ -1,8 +1,80 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
+@model HomeDashboardViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">Library Dashboard</h2>
+        <p class="text-secondary mb-0">Quick overview of your book inventory.</p>
+    </div>
+    <a asp-controller="Books" asp-action="Create" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-2"></i>Add Book
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card lms-card stats-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-2">Total Books</p>
+                <h3 class="mb-0">@Model.TotalBooks</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card lms-card stats-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-2">Available Copies</p>
+                <h3 class="mb-0">@Model.AvailableCopies</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card lms-card stats-card h-100">
+            <div class="card-body">
+                <p class="text-secondary mb-2">Genres</p>
+                <h3 class="mb-0">@Model.UniqueGenres</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card lms-card">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Recently Added Books</h5>
+            <a asp-controller="Books" asp-action="Index" class="btn btn-sm btn-outline-primary">View All</a>
+        </div>
+        @if (!Model.RecentBooks.Any())
+        {
+            <p class="text-secondary mb-0">No books available yet.</p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Copies</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var book in Model.RecentBooks)
+                    {
+                        <tr>
+                            <td>@book.Title</td>
+                            <td>@book.Author</td>
+                            <td><span class="badge badge-soft">@book.Genre</span></td>
+                            <td>@book.CopiesAvailable</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
 </div>

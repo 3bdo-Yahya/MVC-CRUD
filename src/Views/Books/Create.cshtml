@@ -1,0 +1,22 @@
+@model BookFormViewModel
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+<div class="card lms-card">
+    <div class="card-body">
+        <h3 class="mb-3">Add New Book</h3>
+        <form asp-action="Create" method="post">
+            <partial name="_BookFormFields" model="Model" />
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Create</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
