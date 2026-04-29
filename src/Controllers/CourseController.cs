@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Visual.Models;
 using Visual.Models.Database;
+using Visual.Models.ViewModels;
 
 namespace Visual.Controllers
 {
@@ -37,23 +38,32 @@ namespace Visual.Controllers
         // GET: Course/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new CourseFormViewModel());
         }
 
         // POST: Course/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,Hours,Instructor,Price")] Course course)
+        public async Task<IActionResult> Create(CourseFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                course.CreatedAt = DateTime.Now;
+                var course = new Course
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Hours = model.Hours,
+                    Instructor = model.Instructor,
+                    Price = model.Price,
+                    CreatedAt = DateTime.Now
+                };
+
                 _context.Add(course);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Course created successfully!";
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(model);
         }
 
         // GET: Course/Edit/5
@@ -64,32 +74,50 @@ namespace Visual.Controllers
             var course = await _context.Courses.FindAsync(id);
             if (course == null) return NotFound();
 
-            return View(course);
+            var model = new CourseFormViewModel
+            {
+                Id = course.Id,
+                Title = course.Title,
+                Description = course.Description,
+                Hours = course.Hours,
+                Instructor = course.Instructor,
+                Price = course.Price
+            };
+
+            return View(model);
         }
 
         // POST: Course/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Hours,Instructor,Price,CreatedAt")] Course course)
+        public async Task<IActionResult> Edit(int id, CourseFormViewModel model)
         {
-            if (id != course.Id) return NotFound();
+            if (id != model.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
+                var course = await _context.Courses.FindAsync(id);
+                if (course == null) return NotFound();
+
                 try
                 {
-                    _context.Update(course);
+                    course.Title = model.Title;
+                    course.Description = model.Description;
+                    course.Hours = model.Hours;
+                    course.Instructor = model.Instructor;
+                    course.Price = model.Price;
+
                     await _context.SaveChangesAsync();
                     TempData["Success"] = "Course updated successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CourseExists(course.Id)) return NotFound();
+                    if (!CourseExists(model.Id)) return NotFound();
                     throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(model);
         }
 
         // GET: Course/Delete/5

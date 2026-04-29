@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Visual.Models;
 using Visual.Models.Database;
+using Visual.Models.ViewModels;
 
 namespace Visual.Controllers
 {
@@ -15,7 +16,7 @@ namespace Visual.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            var students = await Queryable.OrderByDescending(_context.Students, s => s.CreatedAt)
+            var students = await _context.Students.OrderByDescending(s => s.CreatedAt)
                 .ToListAsync();
             return View(students);
         }
@@ -28,29 +29,37 @@ namespace Visual.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
 
-            return View((object?)student);
+            return View(student);
         }
 
         // GET: Students/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new StudentFormViewModel());
         }
 
         // POST: Students/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Age,Email,Phone")] Student student)
+        public async Task<IActionResult> Create(StudentFormViewModel model)
         {
             if (ModelState.IsValid)
             {
-                student.CreatedAt = DateTime.Now;
+                var student = new Student
+                {
+                    Name = model.Name,
+                    Age = model.Age,
+                    Email = model.Email,
+                    Phone = model.Phone,
+                    CreatedAt = DateTime.Now
+                };
+
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = "Student created successfully!";
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(model);
         }
 
         // GET: Students/Edit/5
@@ -61,32 +70,48 @@ namespace Visual.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
 
-            return View((object?)student);
+            var model = new StudentFormViewModel
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Age = student.Age,
+                Email = student.Email,
+                Phone = student.Phone
+            };
+
+            return View(model);
         }
 
         // POST: Students/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age,Email,Phone,CreatedAt")] Student student)
+        public async Task<IActionResult> Edit(int id, StudentFormViewModel model)
         {
-            if (id != student.Id) return NotFound();
+            if (id != model.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
+                var student = await _context.Students.FindAsync(id);
+                if (student == null) return NotFound();
+
                 try
                 {
-                    _context.Update(student);
+                    student.Name = model.Name;
+                    student.Age = model.Age;
+                    student.Email = model.Email;
+                    student.Phone = model.Phone;
+
                     await _context.SaveChangesAsync();
                     TempData["Success"] = "Student updated successfully!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id)) return NotFound();
+                    if (!StudentExists(model.Id)) return NotFound();
                     throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(model);
         }
 
         // GET: Students/Delete/5
@@ -97,7 +122,7 @@ namespace Visual.Controllers
             var student = await _context.Students.FindAsync(id);
             if (student == null) return NotFound();
 
-            return View((object?)student);
+            return View(student);
         }
 
         // POST: Students/Delete/5
@@ -116,7 +141,7 @@ namespace Visual.Controllers
         }
 
         private bool StudentExists(int id) =>
-            Queryable.Any(_context.Students, e => e.Id == id);
+            _context.Students.Any(e => e.Id == id);
     }
 }
 
