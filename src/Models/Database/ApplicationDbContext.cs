@@ -10,10 +10,14 @@ namespace Visual.Models.Database
             
         }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Course>()
+                .Property(c => c.Price)
+                .HasPrecision(18, 2);
 
             modelBuilder.Entity<Student>().HasData(
                 new Student
@@ -106,6 +110,39 @@ new Student
     Phone = "01000000010",
     CreatedAt = new DateTime(2024, 1, 10)
 }
+            );
+
+            modelBuilder.Entity<Course>().HasData(
+                new Course
+                {
+                    Id = 1,
+                    Title = "Full Stack Web Development",
+                    Description = "Learn Node.js, Express, and MongoDB from scratch.",
+                    Hours = 60,
+                    Instructor = "Alaa Ahmed",
+                    Price = 150.00m,
+                    CreatedAt = new DateTime(2026, 1, 1)
+                },
+                new Course
+                {
+                    Id = 2,
+                    Title = "Mastering C# and .NET",
+                    Description = "Build professional desktop and web applications.",
+                    Hours = 45,
+                    Instructor = "Ahmed Ali",
+                    Price = 120.00m,
+                    CreatedAt = new DateTime(2026, 1, 2)
+                },
+                new Course
+                {
+                    Id = 3,
+                    Title = "UI/UX Design Fundamentals",
+                    Description = "Design beautiful user interfaces with Figma.",
+                    Hours = 30,
+                    Instructor = "Sara Mohamed",
+                    Price = 90.00m,
+                    CreatedAt = new DateTime(2026, 1, 3)
+                }
             );
         }
     }
