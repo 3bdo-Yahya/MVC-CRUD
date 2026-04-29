@@ -3,38 +3,50 @@
 }
 @model HomeDashboardViewModel
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h2 class="mb-1">Library Dashboard</h2>
-        <p class="text-secondary mb-0">Quick overview of your book inventory.</p>
+<section class="lms-hero mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+            <p class="text-uppercase lms-kicker mb-2">LMS Workspace</p>
+            <h2 class="mb-1">Library Dashboard</h2>
+            <p class="text-secondary mb-0">Quick overview of your book inventory.</p>
+        </div>
+        <a asp-controller="Books" asp-action="Create" class="btn btn-primary">
+            <i class="fa-solid fa-plus me-2"></i>Add Book
+        </a>
     </div>
-    <a asp-controller="Books" asp-action="Create" class="btn btn-primary">
-        <i class="fa-solid fa-plus me-2"></i>Add Book
-    </a>
-</div>
+</section>
 
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="card lms-card stats-card h-100">
-            <div class="card-body">
-                <p class="text-secondary mb-2">Total Books</p>
-                <h3 class="mb-0">@Model.TotalBooks</h3>
+            <div class="card-body d-flex justify-content-between align-items-start">
+                <div>
+                    <p class="text-secondary mb-2">Total Books</p>
+                    <h3 class="mb-0">@Model.TotalBooks</h3>
+                </div>
+                <span class="stats-icon"><i class="fa-solid fa-book"></i></span>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card lms-card stats-card h-100">
-            <div class="card-body">
-                <p class="text-secondary mb-2">Available Copies</p>
-                <h3 class="mb-0">@Model.AvailableCopies</h3>
+            <div class="card-body d-flex justify-content-between align-items-start">
+                <div>
+                    <p class="text-secondary mb-2">Available Copies</p>
+                    <h3 class="mb-0">@Model.AvailableCopies</h3>
+                </div>
+                <span class="stats-icon"><i class="fa-solid fa-layer-group"></i></span>
             </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card lms-card stats-card h-100">
-            <div class="card-body">
-                <p class="text-secondary mb-2">Genres</p>
-                <h3 class="mb-0">@Model.UniqueGenres</h3>
+            <div class="card-body d-flex justify-content-between align-items-start">
+                <div>
+                    <p class="text-secondary mb-2">Genres</p>
+                    <h3 class="mb-0">@Model.UniqueGenres</h3>
+                </div>
+                <span class="stats-icon"><i class="fa-solid fa-tags"></i></span>
             </div>
         </div>
     </div>

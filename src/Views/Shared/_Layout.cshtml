@@ -9,23 +9,28 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark lms-navbar shadow-sm">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark lms-navbar">
+        <div class="container lms-shell">
             <a class="navbar-brand text-white fw-semibold" asp-controller="Home" asp-action="Index">
                 <i class="fas fa-book-reader me-2"></i>LMS
             </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link text-white" asp-controller="Home" asp-action="Index">
-                    <i class="fas fa-chart-line me-1"></i>Dashboard
-                </a>
-                <a class="nav-link text-white" asp-controller="Books" asp-action="Index">
-                    <i class="fas fa-book-open me-1"></i>Books
-                </a>
+            <div class="d-flex align-items-center gap-2 ms-auto">
+                <div class="navbar-nav">
+                    <a class="nav-link text-white" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-chart-line me-1"></i>Dashboard
+                    </a>
+                    <a class="nav-link text-white" asp-controller="Books" asp-action="Index">
+                        <i class="fas fa-book-open me-1"></i>Books
+                    </a>
+                </div>
+                <button id="themeToggle" type="button" class="btn btn-sm btn-outline-light lms-theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <div class="container my-4">
+    <main class="container lms-shell my-4">
         @if (TempData["Success"] != null)
         {
             <div class="alert alert-success alert-dismissible toast-success fade show shadow-sm border-0" role="alert">
@@ -35,7 +40,7 @@
         }
 
         @RenderBody()
-    </div>
+    </main>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
