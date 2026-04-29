@@ -12,6 +12,10 @@ if (string.IsNullOrWhiteSpace(connectionString))
         "Connection string 'cs' is missing. Configure it using user-secrets or environment variable 'ConnectionStrings__cs'.");
 }
 
+var dbPath = Path.GetDirectoryName(connectionString.Replace("Data Source=", ""));
+if (!string.IsNullOrEmpty(dbPath))
+    Directory.CreateDirectory(dbPath);
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
