@@ -1,0 +1,7 @@
+﻿services:
+  visual:
+    image: visual
+    build:
+      context: .
+      dockerfile: Dockerfile
+
