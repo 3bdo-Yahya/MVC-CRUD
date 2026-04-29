@@ -380,3 +380,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# SQLite local database artifacts
+src/App_Data/*.db
+src/App_Data/*.db-shm
+src/App_Data/*.db-wal
